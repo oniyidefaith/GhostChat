@@ -1,9 +1,0 @@
-{
-    "deploy": {
-        "module": "anon.wsgi:application",
-        "managetasks": [
-            "migrate --no-input",
-            "collectstatic --noinput"
-        ]
-    }
-}
