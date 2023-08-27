@@ -1,0 +1,27 @@
+{% extends 'base2.html' %}
+{% block content %}
+{% load static %}
+<img class="toggle" src="{% static 'svg/chevron_left.svg' %}" onclick="toggleSidebar()">
+<h3>{{request.user}} Keep a secret. I promise i wont tell anyone.</h3>
+    <br>
+
+    <div class="chat_container"></div>
+    <div class="chat__item__container" id="id_chat_item_container" style="font-size: 20px">
+        <br />
+<br/>
+        <textarea type="text" class="text_area" cols="20" rows="10"  onkeyup="if (this.scrollHeight > this.clientHeight) this.style.height = this.scrollHeight + 'px';"  id="id_message_send_input" style="display:none;"></textarea><br>
+{% for question in questions reversed %}
+{% if question.user == request.user %}
+    {# Display the question since the current user owns it #}
+    <p class="question">{{ question.question }}</p><br>
+{% endif %}
+{% endfor %}
+        <div class="flex_button">
+            <input class="hero_logo invisible" type="file" id="id_file_input">
+            <button type="submit" class="send_button" id="id_message_send_button" style="display: none;">Send</button>
+        </div>
+        <br />
+        <br />
+    </div>
+
+{% endblock %}

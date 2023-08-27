@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<form action="" method="POST">
+     {% csrf_token %}
+     {{form.as_p}}
+    <h1>Login</h1><br>
+    <p> Please Enter your details here</p><br>
+    <input type="text" class="field" placeholder="Username/Nick Name" name="un" required><br>
+    <input type="password" class="field" placeholder="Your Password" name="pa" required><br>
+    <div class="niche">
+        New User? <i><a href="register" >Register</a></i>
+    </div><br>
+<!--    <a href="password-reset">Forgot Password?</a><br>-->
+    <input type="submit" class="btn" value="Login" name="login">
+
+    {% for m in messages %}
+    <center><font color="red"><h2>{{m}}</h2></font></center>
+    {% endfor %}
+</form>
+
+{% endblock %}
