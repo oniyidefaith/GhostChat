@@ -1,0 +1,73 @@
+.link_body{
+    background-color: #111;
+}
+
+.link_box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+}
+
+img{
+    height: 40px;
+}
+
+p{
+    text-align: left;
+}
+
+hr{
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5.3px);
+    -webkit-backdrop-filter: blur(5.3px);
+    border: 1px solid rgba(255, 255, 255, 0.31);
+}
+
+.link_content{
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5.3px);
+    -webkit-backdrop-filter: blur(5.3px);
+    border: 1px solid rgba(255, 255, 255, 0.31);
+    text-align: center;
+    color: #ffff;
+    padding: 10px;
+}
+
+a{
+    color:  #292c36;
+    text-decoration: none;
+}
+
+.copy{
+    display: flex;
+    background-color: #FFFF;
+    width: 45%;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+i{
+    cursor: pointer;
+}
+.copy_div{
+    display: flex;
+    gap: 20px;
+}
+
+.clip{
+    width: 30px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: none;
+}
+
+#copyText{
+color: #292c36;
+}

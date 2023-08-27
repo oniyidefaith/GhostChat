@@ -1,0 +1,20 @@
+{% extends 'base2.html' %}
+{% block content %}
+{% load static %}
+<img class="toggle" src="{% static 'svg/chevron_left.svg' %}" onclick="toggleSidebar()">
+<h3>Hello, Say something about {{room_name}} you're Incognito</h3>
+    <br>
+
+    <div class="chat_container"></div>
+    <div class="chat__item__container" id="id_chat_item_container" style="font-size: 20px">
+        <br />
+        <textarea type="text" class="text_area" cols="20" rows="10"  onkeyup="if (this.scrollHeight > this.clientHeight) this.style.height = this.scrollHeight + 'px';"  id="id_message_send_input"></textarea><br>
+
+        <div class="flex_button">
+            <input class="hero_logo invisible" type="file" id="id_file_input">
+            <button type="submit" class="send_button" id="id_message_send_button">Send</button>
+        </div>
+        <br />
+        <br />
+    </div>
+{% endblock %}

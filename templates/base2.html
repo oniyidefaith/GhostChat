@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>
+        {% block title %}
+        GhostTalk
+         {% endblock title %}
+    </title>
+     <meta name="viewport">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="icon" type="image/x-icon" href="{% static 'svg/incognito.svg' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'auths/chat.css' %}">
+</head>
+<body>
+<div class="left_menu">
+  <div class="left_content">
+    <a href="{% url 'login' %}" class="logout">
+      <img title="Logout" src="{% static 'svg/incognito.svg' %}" class="hero_logo">
+      <span>Logout</span>
+    </a>
+    <a href="{% url 'room' room_name=request.user %}?id={{ request.session.user_id }}" class="chat">
+      <img title="Chat" src="{% static 'svg/chat.svg' %}" class="hero_logo">
+      <span>Chat</span>
+    </a>
+    <a href="{% url 'question:question' %}" class="secret">
+      <img title="GhostTalk Question" src="{% static 'svg/question.svg' %}" class="hero_logo">
+      <span>Keep Secret</span>
+    </a>
+    <a href="{% url 'question:construction' %}" class="video">
+      <img title="Video Call" src="{% static 'svg/video.svg' %}" class="hero_logo">
+      <span>Video</span>
+    </a>
+  </div>
+</div>
+<div class="chat_div">
+    {% block content %}
+
+    {% endblock %}
+</div>
+
+<div class="right_div">
+<div class="slideshow-container">
+
+<div class="mySlides fade">
+  <div class="numbertext">1 / 2</div>
+    <br/>
+  <img src="{% static 'svg/logo_two.svg' %}" style="width:100%"><br>
+  <div class="text">Welcome To Ghost Talk</div>
+</div>
+
+<div class="mySlides fade">
+  <div class="numbertext">2 / 2</div><br/><br>
+  <img src="https://img.freepik.com/premium-photo/portrait-young-business-man-work-video-call-while-staying-home_58466-15489.jpg?w=740" style="width:100%">
+    <br><br>
+  <div class="text">Talk with Stranger coming soon</div>
+</div>
+<br>
+<div style="text-align:center">
+  <span class="dot"></span>
+  <span class="dot"></span>
+
+</div>
+</div>
+<br>
+</div>
+<script>
+  var roomName = "{{ room_name }}";
+  var chatContainer = document.querySelector('.chat_container');
+  var messageSendInput = document.querySelector("#id_message_send_input");
+  var fileInput = document.querySelector("#id_file_input");
+var ws_scheme = window.location.protocol =="https:" ? "wss" : "ws";
+
+  var chatSocket = new WebSocket(
+    ws_scheme + '://' + window.location.host + '/ws/room/' + roomName + '/');
+  var messagesFetched = false; // Add a flag to track if messages have been fetched
+
+  chatSocket.onopen = function (event) {
+    if (!messagesFetched) { // Fetch messages only if not already fetched
+      chatSocket.send(JSON.stringify({ command: 'fetch_messages' }));
+      messagesFetched = true; // Set the flag to true after fetching messages once
+    }
+  };
+
+chatSocket.onmessage = function (e) {
+    var data = JSON.parse(e.data);
+    var message = data.message;
+    var isFile = data.is_file;
+    var messageElement = document.createElement('div');
+    messageElement.classList.add('chats');
+
+    if (isFile) {
+        // Create an img element to display the image
+        var fileData = data.file_data;
+        var fileUrl = URL.createObjectURL(base64ToBlob(fileData, data.file_type));
+        var fileElement = document.createElement('img');
+        fileElement.classList.add('input_img');
+        fileElement.src = fileUrl;
+        messageElement.appendChild(fileElement);
+
+        var textCaption = document.createElement('div');
+        textCaption.textContent = data.caption;
+        messageElement.appendChild(textCaption);
+    } else {
+        messageElement.textContent = message;
+    }
+
+    chatContainer.appendChild(messageElement);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+};
+
+// Helper function to convert base64 to Blob
+function base64ToBlob(base64Data, contentType) {
+    var sliceSize = 1024;
+    var byteCharacters = atob(base64Data);
+    var byteArrays = [];
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+        var byteArray = new Uint8Array(byteNumbers);
+        byteArrays.push(byteArray);
+    }
+    return new Blob(byteArrays, { type: contentType });
+}
+
+
+messageSendInput.focus();
+messageSendInput.onkeyup = function (e) {
+    if (e.keyCode === 13) {
+        sendMessage();
+    }
+};
+
+fileInput.onchange = function (e) {
+    var file = fileInput.files[0];
+    var reader = new FileReader();
+    reader.onload = function (event) {
+        var fileData = event.target.result;
+        var messageInput = messageSendInput.value;
+
+        var messageElement = document.createElement('div');
+        var fileElement = document.createElement('img');
+        fileElement.classList.add('input_img');
+        fileElement.src = fileData;
+        messageElement.appendChild(fileElement);
+
+        if (messageInput) {
+            var textCaption = document.createElement('div');
+            textCaption.textContent = messageInput;
+            messageElement.appendChild(textCaption);
+        }
+
+        messageElement.classList.add('chats');
+        chatContainer.appendChild(messageElement);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        chatSocket.send(JSON.stringify({
+            command: 'send_file',
+            file_data: fileData,
+            caption: messageInput
+        }));
+    };
+    reader.readAsDataURL(file);
+};
+
+document.querySelector("#id_message_send_button").onclick = function (e) {
+    sendMessage();
+};
+
+function sendMessage() {
+    var messageInput = messageSendInput.value;
+
+    if (messageInput) {
+        var messageElement = document.createElement('div');
+        messageElement.textContent = messageInput;
+        messageElement.classList.add('chats');
+        chatContainer.appendChild(messageElement);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        chatSocket.send(JSON.stringify({
+            command: 'send_message',
+            message: messageInput
+        }));
+    }
+
+    messageSendInput.value = "";
+    fileInput.value = "";
+}
+
+
+const textarea = document.querySelector('textarea');
+
+textarea.addEventListener('input', function () {
+  while (textarea.clientHeight < textarea.scrollHeight) {
+    textarea.value = textarea.value.substr(0, textarea.value.length - 1);
+  }
+});
+
+let slideIndex = 0;
+showSlides();
+
+function showSlides() {
+  let i;
+    let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("dot");
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  slideIndex++;
+  if (slideIndex > slides.length) {
+    slideIndex = 1;
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex - 1].style.display = "block";
+  dots[slideIndex - 1].className += " active";
+  setTimeout(showSlides, 2000); // Change image every 2 seconds
+}
+
+
+function toggleSidebar() {
+    const leftMenu = document.querySelector('.left_menu');
+    leftMenu.classList.toggle('collapsed');
+
+    const toggleImage = document.querySelector('.toggle');
+    const isCollapsed = leftMenu.classList.contains('collapsed');
+
+    if (isCollapsed) {
+      toggleImage.src = "{% static 'svg/chevron_right.svg' %}";
+    } else {
+      toggleImage.src = "{% static 'svg/chevron_left.svg' %}";
+    }
+  }
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
+</html>
