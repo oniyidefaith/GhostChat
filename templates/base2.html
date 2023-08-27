@@ -73,7 +73,7 @@
 var ws_scheme = window.location.protocol =="https:" ? "wss" : "ws";
 
   var chatSocket = new WebSocket(
-    ws_scheme + '://' + window.location.host + '/ws/room/' + roomName + '/');
+    ws_scheme + '://' + 'web-production-1aaa.up.railway.app' + '/ws/room/' + roomName + '/');
   var messagesFetched = false; // Add a flag to track if messages have been fetched
 
   chatSocket.onopen = function (event) {
