@@ -25,7 +25,7 @@ class ChatConsumer(WebsocketConsumer):
             self.channel_name
         )
 
-    def recieve(self, text_data):
+    def receive(self, text_data):
         text_data_json = json.loads(text_data)
         command = text_data_json.get('command', None)
 
