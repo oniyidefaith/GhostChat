@@ -33,7 +33,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['.vercel.app', '.now.sh', 'web-production-1aaa.up.railway.app', '127.0.0.1', 'localhost', 'app_cfd3bccd-ff99-4b05-9b4e-885c029d3d2d.cleverapps.io']
+ALLOWED_HOSTS = ['.vercel.app', '.now.sh', 'web-production-5c6c0.up.railway.app', '127.0.0.1', 'localhost', 'app_cfd3bccd-ff99-4b05-9b4e-885c029d3d2d.cleverapps.io']
 # Application definition
 
 INSTALLED_APPS = [
