@@ -66,14 +66,15 @@
 <br>
 </div>
 <script>
-  var roomName = "{{ room_name }}";
+  var roomName = "{{ request.user.username }}";
   var chatContainer = document.querySelector('.chat_container');
   var messageSendInput = document.querySelector("#id_message_send_input");
   var fileInput = document.querySelector("#id_file_input");
-var ws_scheme = window.location.protocol =="https:" ? "wss" : "ws";
+    var wsScheme = window.location.protocol === "https:" ? "wss:" : "ws:";  // Fixed the variable name and comparison operator
 
-  var chatSocket = new WebSocket(
-    ws_scheme + '://' + window.location.host + '/ws/room/' + roomName + '/');
+    var chatSocket = new WebSocket(
+        wsScheme + '//' + window.location.host + '/ws/room/' + roomName + '/'
+    );
   var messagesFetched = false; // Add a flag to track if messages have been fetched
 
   chatSocket.onopen = function (event) {
