@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <p align='center'>
 
 ![logo_two.svg](auths%2Fstatic%2Fsvg%2Flogo_two.svg)
@@ -79,3 +80,7 @@ requirements and running
     docker-compose build
     docker-compose up
 ```
+=======
+# GhostChat
+anonymous chat application in django mvt 
+>>>>>>> e5e6dfb1a653d0bf526bcc61248b81fed2f20d16
