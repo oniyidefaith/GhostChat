@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <p align='center'>
 
 ![logo_two.svg](auths%2Fstatic%2Fsvg%2Flogo_two.svg)
@@ -7,8 +7,8 @@
 
 # GhostTalk
 GhostTalk is chat web application designed using django MVT(Model View Template)
-.The application is designed for people to connect together while their identity remains a secrete 
-.The application also provides platforms such as Ghost secrete where users intend to keep information
+.The application is designed for people to connect together while their identity remains a secret
+.The application also provides platforms such as Ghost secret where users intend to keep information
 either personal or from the public.
 
 # Motivation 💪🏻
@@ -17,7 +17,18 @@ is a fuel to make an anonymous chat application. To make thing much fun, the Gho
 allows multiple users to  chat simultaneously in real time.
 
 # 🔥Output
+### GhostTalk
+edge
+![img.png](assets/img.png)
+chrome
+![img_1.png](assets/img_1.png)
 
+### Ghost secret
+![img_2.png](assets/img_2.png)
+![img_3.png](assets/img_3.png)
+
+### Ghost call
+![img_4.png](assets/img_4.png)
 
 # Technology Used To Develop GhostTalk 🛠
 The GhostTalk application uses the following technology or tools:<br/> 
@@ -80,7 +91,3 @@ requirements and running
     docker-compose build
     docker-compose up
 ```
-=======
-# GhostChat
-anonymous chat application in django mvt 
->>>>>>> e5e6dfb1a653d0bf526bcc61248b81fed2f20d16
