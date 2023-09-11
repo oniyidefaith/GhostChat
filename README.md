@@ -27,8 +27,6 @@ chrome
 ![img_2.png](assets/img_2.png)
 ![img_3.png](assets/img_3.png)
 
-### Ghost call
-![img_4.png](assets/img_4.png)
 
 # Technology Used To Develop GhostTalk 🛠
 The GhostTalk application uses the following technology or tools:<br/> 
